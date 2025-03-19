@@ -12,8 +12,9 @@ service Auth {
 
 message RegisterRequest {
 	string email = 1;
-	string password = 2;
-	string confirm = 3;
+	string username = 2;
+	string password = 3;
+	string confirm = 4;
 }
 
 message RegisterResponse {
@@ -21,9 +22,8 @@ message RegisterResponse {
 }
 
 message LoginRequest {
-	string email = 1;
+	string username = 1;
 	string password = 2;
-	int32 app_id = 3;
 }
 
 message LoginResponse {
