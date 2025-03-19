@@ -8,4 +8,7 @@ get-deps:
 
 gen-sso-code:
 	protoc -I proto proto/sso/sso.proto --go_out=./gen/go --go_opt=paths=source_relative --go-grpc_out=./gen/go --go-grpc_opt=paths=source_relative
+
+gen-notes-code:
+	protoc -I proto proto/notes/notes.proto --go_out=./gen/go --go_opt=paths=source_relative --go-grpc_out=./gen/go --go-grpc_opt=paths=source_relative
 	
