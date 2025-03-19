@@ -37,7 +37,7 @@ message GetByIdResponse {
 	string title = 2;
 	string content = 3;
 	int64 owner_id = 4;
-	repeated string collaborators = 5;
+	repeated int64 collaborators = 5;
 	repeated string tags = 6;
 	bool is_public = 7;
 	google.protobuf.Timestamp created_at = 8;
