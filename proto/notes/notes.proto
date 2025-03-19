@@ -13,6 +13,7 @@ service Notes {
 	rpc GetById (GetByIdRequest) returns (GetByIdResponse);
 	rpc Update (UpdateRequest) returns (google.protobuf.Empty);
 	rpc Delete (DeleteRequest) returns (google.protobuf.Empty);
+	rpc AddCollaborators (AddCollaboratorsRequest) returns (google.protobuf.Empty);
 }
 
 message CreateRequest {
@@ -53,4 +54,8 @@ message UpdateRequest {
 
 message DeleteRequest {
     int64 note_id = 1;
+}
+
+message AddCollaboratorsRequest {
+	repeated int64 user_ids = 1;
 }

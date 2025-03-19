@@ -20,10 +20,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Notes_Create_FullMethodName  = "/notes.Notes/Create"
-	Notes_GetById_FullMethodName = "/notes.Notes/GetById"
-	Notes_Update_FullMethodName  = "/notes.Notes/Update"
-	Notes_Delete_FullMethodName  = "/notes.Notes/Delete"
+	Notes_Create_FullMethodName           = "/notes.Notes/Create"
+	Notes_GetById_FullMethodName          = "/notes.Notes/GetById"
+	Notes_Update_FullMethodName           = "/notes.Notes/Update"
+	Notes_Delete_FullMethodName           = "/notes.Notes/Delete"
+	Notes_AddCollaborators_FullMethodName = "/notes.Notes/AddCollaborators"
 )
 
 // NotesClient is the client API for Notes service.
@@ -34,6 +35,7 @@ type NotesClient interface {
 	GetById(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetByIdResponse, error)
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	AddCollaborators(ctx context.Context, in *AddCollaboratorsRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type notesClient struct {
@@ -84,6 +86,16 @@ func (c *notesClient) Delete(ctx context.Context, in *DeleteRequest, opts ...grp
 	return out, nil
 }
 
+func (c *notesClient) AddCollaborators(ctx context.Context, in *AddCollaboratorsRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, Notes_AddCollaborators_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NotesServer is the server API for Notes service.
 // All implementations must embed UnimplementedNotesServer
 // for forward compatibility.
@@ -92,6 +104,7 @@ type NotesServer interface {
 	GetById(context.Context, *GetByIdRequest) (*GetByIdResponse, error)
 	Update(context.Context, *UpdateRequest) (*emptypb.Empty, error)
 	Delete(context.Context, *DeleteRequest) (*emptypb.Empty, error)
+	AddCollaborators(context.Context, *AddCollaboratorsRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedNotesServer()
 }
 
@@ -113,6 +126,9 @@ func (UnimplementedNotesServer) Update(context.Context, *UpdateRequest) (*emptyp
 }
 func (UnimplementedNotesServer) Delete(context.Context, *DeleteRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedNotesServer) AddCollaborators(context.Context, *AddCollaboratorsRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddCollaborators not implemented")
 }
 func (UnimplementedNotesServer) mustEmbedUnimplementedNotesServer() {}
 func (UnimplementedNotesServer) testEmbeddedByValue()               {}
@@ -207,6 +223,24 @@ func _Notes_Delete_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Notes_AddCollaborators_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddCollaboratorsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotesServer).AddCollaborators(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Notes_AddCollaborators_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotesServer).AddCollaborators(ctx, req.(*AddCollaboratorsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Notes_ServiceDesc is the grpc.ServiceDesc for Notes service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -229,6 +263,10 @@ var Notes_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Delete",
 			Handler:    _Notes_Delete_Handler,
+		},
+		{
+			MethodName: "AddCollaborators",
+			Handler:    _Notes_AddCollaborators_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
