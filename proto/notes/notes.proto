@@ -19,7 +19,7 @@ message CreateRequest {
 	string title = 1;
 	string content = 2;
 	int64 owner_id = 3;
-	repeated string collaborators = 4;
+	repeated int64 collaborators = 4;
 	repeated string tags = 5;
 	bool is_public = 6;
 }
