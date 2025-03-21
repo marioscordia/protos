@@ -8,7 +8,14 @@ service Auth {
 	rpc Register (RegisterRequest) returns (RegisterResponse);
 	rpc Login (LoginRequest) returns (LoginResponse);
 	rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
+	rpc GetByIds (GetByIdsRequest) returns (GetByIdsResponse);
 }
+
+message User {
+	int32 id = 1;
+	string username = 2;
+	string email = 3;
+  }
 
 message RegisterRequest {
 	string email = 1;
@@ -36,4 +43,12 @@ message IsAdminRequest {
 
 message IsAdminResponse {
 	bool is_admin = 1;
+}
+
+message GetByIdsRequest {
+	repeated int64 user_ids = 1;
+}
+
+message GetByIdsResponse {
+	repeated User users = 1;
 }
