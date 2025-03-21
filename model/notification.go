@@ -9,14 +9,14 @@ type Email struct {
 }
 
 type EmailNotification struct {
-	ID         string     `json:"id"`
-	UserID     string     `json:"user_id"`
-	Recipients []string   `json:"recipients"`
-	EventType  string     `json:"event_type"`
-	Subject    string     `json:"subject"`
-	Body       string     `json:"body"`
-	Status     string     `json:"status"`
-	SentAt     *time.Time `json:"sent_at"`
-	CreatedAt  time.Time  `json:"created_at"`
-	UpdatedAt  time.Time  `json:"updated_at"`
+	ID             string     `json:"id"`
+	UserID         string     `json:"user_id"`
+	RecipientEmail string     `json:"recipient_email"`
+	EventType      string     `json:"event_type"`
+	Subject        string     `json:"subject"`
+	Body           string     `json:"body"`
+	Status         string     `json:"status"`
+	SentAt         *time.Time `json:"sent_at"`
+	CreatedAt      time.Time  `json:"created_at"`
+	UpdatedAt      time.Time  `json:"updated_at"`
 }
