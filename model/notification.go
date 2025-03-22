@@ -9,8 +9,8 @@ type Email struct {
 }
 
 type EmailNotification struct {
-	ID             string     `json:"id"`
-	UserID         string     `json:"user_id"`
+	ID             int64      `json:"id"`
+	UserID         int64      `json:"user_id"`
 	RecipientEmail string     `json:"recipient_email"`
 	EventType      string     `json:"event_type"`
 	Subject        string     `json:"subject"`
