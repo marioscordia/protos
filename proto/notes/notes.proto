@@ -3,53 +3,81 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
 
 package notes;
 
-option go_package="scordia.notes.v1;notesv1";
+option go_package = "scordia.notes.v1;notesv1";
 
 service Notes {
-	rpc Create (CreateRequest) returns (CreateResponse);
-	rpc GetById (GetByIdRequest) returns (GetByIdResponse);
-	rpc Update (UpdateRequest) returns (google.protobuf.Empty);
-	rpc Delete (DeleteRequest) returns (google.protobuf.Empty);
-	rpc AddCollaborators (AddCollaboratorsRequest) returns (google.protobuf.Empty);
+    rpc Create (CreateRequest) returns (CreateResponse) {
+        option (google.api.http) = {
+            post: "/v1/notes"
+            body: "*"
+        };
+    }
+
+    rpc GetById (GetByIdRequest) returns (GetByIdResponse) {
+        option (google.api.http) = {
+            get: "/v1/notes/{note_id}"
+        };
+    }
+
+    rpc Update (UpdateRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            patch: "/v1/notes/{note_id}"
+            body: "*"
+        };
+    }
+
+    rpc Delete (DeleteRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/v1/notes/{note_id}"
+        };
+    }
+
+    rpc AddCollaborators (AddCollaboratorsRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "/v1/notes/{note_id}/collaborators"
+            body: "*"
+        };
+    }
 }
 
 message CreateRequest {
-	string title = 1;
-	string content = 2;
-	int64 owner_id = 3;
-	repeated int64 collaborators = 4;
-	repeated string tags = 5;
-	bool is_public = 6;
+    string title = 1;
+    string content = 2;
+    int64 owner_id = 3;
+    repeated int64 collaborators = 4;
+    repeated string tags = 5;
+    bool is_public = 6;
 }
 
 message CreateResponse {
-	int64 note_id = 1;
+    int64 note_id = 1;
 }
 
 message GetByIdRequest {
-	int64 note_id = 1;
+    int64 note_id = 1;
 }
 
 message GetByIdResponse {
-	int64 note_id = 1;
-	string title = 2;
-	string content = 3;
-	int64 owner_id = 4;
-	repeated int64 collaborators = 5;
-	repeated string tags = 6;
-	bool is_public = 7;
-	google.protobuf.Timestamp created_at = 8;
+    int64 note_id = 1;
+    string title = 2;
+    string content = 3;
+    int64 owner_id = 4;
+    repeated int64 collaborators = 5;
+    repeated string tags = 6;
+    bool is_public = 7;
+    google.protobuf.Timestamp created_at = 8;
     google.protobuf.Timestamp updated_at = 9;
 }
 
 message UpdateRequest {
-	int64 note_id = 1;
-	google.protobuf.StringValue title = 2;
+    int64 note_id = 1;
+    google.protobuf.StringValue title = 2;
     google.protobuf.StringValue content = 3;
-	repeated string tags = 4;
+    repeated string tags = 4;
 }
 
 message DeleteRequest {
@@ -57,6 +85,6 @@ message DeleteRequest {
 }
 
 message AddCollaboratorsRequest {
-	int64 note_id = 1;
-	repeated int64 user_ids = 2;
+    int64 note_id = 1;
+    repeated int64 user_ids = 2;
 }

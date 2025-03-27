@@ -1,20 +1,26 @@
 syntax = "proto3";
 
+import "google/api/annotations.proto";
+
 package updates;
 
 option go_package="scordia.updates.v1;updatesv1";
 
 service Updates {
-	rpc GetUpdates(GetUpdatesRequest) returns (stream GetUpdatesResponse);
+    rpc GetUpdates (GetUpdatesRequest) returns (stream GetUpdatesResponse) {
+        option (google.api.http) = {
+            get: "/v1/updates/{note_id}"
+        };
+    }
 }
 
 message GetUpdatesRequest {
-	int64 note_id = 1;
+    int64 note_id = 1;
 }
 
 message GetUpdatesResponse {
-	int64 note_id = 1;
-	int64 user_id = 2;
-	string title = 3;
-	string content = 4;
+    int64 note_id = 1;
+    int64 user_id = 2;
+    string title = 3;
+    string content = 4;
 }

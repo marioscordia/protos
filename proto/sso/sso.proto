@@ -1,54 +1,79 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
 package auth;
 
 option go_package="scordia.sso.v1;ssov1";
 
 service Auth {
-	rpc Register (RegisterRequest) returns (RegisterResponse);
-	rpc Login (LoginRequest) returns (LoginResponse);
-	rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
-	rpc GetByIds (GetByIdsRequest) returns (GetByIdsResponse);
+    rpc Register (RegisterRequest) returns (RegisterResponse) {
+        option (google.api.http) = {
+            post: "/v1/auth/register"
+            body: "*"
+        };
+    }
+    
+    rpc Login (LoginRequest) returns (LoginResponse) {
+        option (google.api.http) = {
+            post: "/v1/auth/login"
+            body: "*"
+        };
+    }
+    
+    rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse) {
+        option (google.api.http) = {
+            get: "/v1/auth/is_admin/{user_id}"
+        };
+    }
+    
+    rpc GetByIds (GetByIdsRequest) returns (GetByIdsResponse) {
+        option (google.api.http) = {
+            post: "/v1/auth/get_by_ids"
+            body: "*"
+        };
+    }
 }
 
 message User {
-	int64 id = 1;
-	string username = 2;
-	string email = 3;
-  }
+    int64 id = 1;
+    string username = 2;
+    string email = 3;
+}
 
 message RegisterRequest {
-	string email = 1;
-	string username = 2;
-	string password = 3;
-	string confirm = 4;
+    string email = 1;
+    string username = 2;
+    string password = 3;
+    string confirm = 4;
 }
 
 message RegisterResponse {
-	int64 user_id = 1;
+    int64 user_id = 1;
 }
 
 message LoginRequest {
-	string username = 1;
-	string password = 2;
+    string username = 1;
+    string password = 2;
 }
 
 message LoginResponse {
-	string token = 1;
+    string token = 1;
 }
 
 message IsAdminRequest {
-	int64 user_id = 1;
+    int64 user_id = 1;
 }
 
 message IsAdminResponse {
-	bool is_admin = 1;
+    bool is_admin = 1;
 }
 
 message GetByIdsRequest {
-	repeated int64 user_ids = 1;
+    repeated int64 user_ids = 1;
 }
 
 message GetByIdsResponse {
-	repeated User users = 1;
+    repeated User users = 1;
 }
